@@ -1,4 +1,6 @@
 package com.spbu.parseus
 
-abstract class AbstractParser(val fileName: String): Parser {
+import java.net.URL
+
+abstract class AbstractParser(val url: String): Parser {
 }
