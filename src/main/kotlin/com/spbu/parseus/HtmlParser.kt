@@ -6,16 +6,20 @@ import java.io.File
 import java.net.URL
 
 
-class HtmlParser(path: String): AbstractParser(path) {
+class HtmlParser(): Parser {
     private var html: Document
+
     init {
+        html = Document("null")
+    }
+
+    constructor(path: String): this() {
         html = Jsoup.parse(File(path), "UTF-8")
     }
 
-
-    /*constructor(url: URL): this("") {
+    constructor(url: URL): this() {
         html = Jsoup.connect(url.toString()).get()
-    }*/
+    }
 
     override fun getText(): String {
         val title = html.title()

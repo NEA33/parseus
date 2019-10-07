@@ -6,16 +6,17 @@ import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy
 import java.net.URL
 
-class PdfParser(path: String): AbstractParser(path) {
+class PdfParser(url: URL): Parser {
     private val reader: PdfReader
+
     init {
-        reader = PdfReader("file://${path}")
+        reader = PdfReader(url.toString())
     }
 
-    constructor(url: URL): this(url.toString())
+    constructor(path: String): this(URL("file://" + path))
 
     override fun getText(): String {
-        val strategy: TextExtractionStrategy = SimpleTextExtractionStrategy()
+        val strategy = SimpleTextExtractionStrategy()
         var result = ""
         for (i in 1..reader.numberOfPages)
             result = result + PdfTextExtractor.getTextFromPage(reader, i, strategy) + "\n"

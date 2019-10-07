@@ -6,11 +6,11 @@ import java.io.File
 import java.io.FileInputStream
 
 
-class DocParser(path: String): AbstractParser(path) {
+class DocParser(path: String): Parser {
     private val wordExtractor: WordExtractor
 
     init {
-        val fileSystem: FileInputStream = FileInputStream(File(path).absolutePath)
+        val fileSystem = FileInputStream(File(path).absolutePath)
         val doc = HWPFDocument(fileSystem)
         wordExtractor = WordExtractor(doc)
     }

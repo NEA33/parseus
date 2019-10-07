@@ -5,7 +5,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument
 import java.io.File
 import java.io.FileInputStream
 
-class DocxParser(path: String): AbstractParser(path) {
+class DocxParser(path: String): Parser {
     private val doc: XWPFDocument
     private val wordExtractor: XWPFWordExtractor
 
