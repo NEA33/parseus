@@ -3,25 +3,27 @@ package com.spbu.parseus
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.File
+import java.net.URL
 
 
-class HtmlParser(fileName: String): AbstractParser(fileName) {
+ class HtmlParser: Parser {
     private val html: Document
-    init {
-        if (Regex(""".html""").containsMatchIn(fileName))
-            html = Jsoup.parse(File(fileName),"UTF-8")
-        else
-            html = Jsoup.connect(fileName).get()
+
+    constructor (path: String) {
+        html = Jsoup.parse(File(path), "UTF-8")
     }
+
+    constructor (url: URL) {
+        html = Jsoup.connect(url.toString()).get()
+    }
+
+
     override fun getText(): String {
         val title = html.title()
         val body = html.body().allElements.text()
-        var result = title + "\n" + body
-        return result
+        return title + "\n" + body
     }
-    override fun getLinks(): String {
-        val links = html.body().getElementsByTag("a")
-            .eachAttr("href").joinToString(separator = "\n")
-        return links
-    }
+
+    override fun getLinks(): List<String> = html.body().getElementsByTag("a")
+            .eachAttr("href")
 }
