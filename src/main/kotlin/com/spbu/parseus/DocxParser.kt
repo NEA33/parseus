@@ -2,24 +2,20 @@ package com.spbu.parseus
 
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor
 import org.apache.poi.xwpf.usermodel.XWPFDocument
-import java.io.File
 import java.io.FileInputStream
 
-class DocxParser: Parser {
+class DocxParser(path: String) : Parser {
+
     private val doc: XWPFDocument
     private val wordExtractor: XWPFWordExtractor
 
-    constructor(path: String) {
-        val fileSystem: FileInputStream = FileInputStream(File(path).absolutePath)
+    init {
+        val fileSystem = FileInputStream(path)
         doc = XWPFDocument(fileSystem)
         wordExtractor = XWPFWordExtractor(doc)
     }
 
-    override fun getText(): String = wordExtractor.text
+    override val text: String = wordExtractor.text
 
-    override fun getLinks(): List<String> {
-        val links: MutableList<String> = mutableListOf()
-        doc.hyperlinks.forEach { link -> links.add(link.url) }
-        return links
-    }
+    override val links: List<String> = doc.hyperlinks.map { it.url }
 }

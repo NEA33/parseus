@@ -3,8 +3,9 @@ package com.spbu.parseus
 import org.junit.Test
 
 class DocxParserTest {
-    val path = System.getProperty("user.dir") + "/src/main/resources/test.docx"
-    val doc = DocxParser(path)
+
+    private val path = System.getProperty("user.dir") + "/src/main/resources/test.docx"
+    private val doc = DocxParser(path)
 
     @Test
     fun testGetText() = println(doc.text)
