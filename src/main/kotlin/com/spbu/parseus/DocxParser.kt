@@ -5,11 +5,11 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument
 import java.io.File
 import java.io.FileInputStream
 
-class DocxParser(path: String): Parser {
+class DocxParser: Parser {
     private val doc: XWPFDocument
     private val wordExtractor: XWPFWordExtractor
 
-    init {
+    constructor(path: String) {
         val fileSystem: FileInputStream = FileInputStream(File(path).absolutePath)
         doc = XWPFDocument(fileSystem)
         wordExtractor = XWPFWordExtractor(doc)

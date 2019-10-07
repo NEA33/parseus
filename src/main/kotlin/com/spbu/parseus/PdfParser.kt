@@ -6,14 +6,16 @@ import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy
 import java.net.URL
 
-class PdfParser(url: URL): Parser {
+class PdfParser: Parser {
     private val reader: PdfReader
 
-    init {
+    constructor(url: URL) {
         reader = PdfReader(url.toString())
     }
 
-    constructor(path: String): this(URL("file://" + path))
+    constructor(path: String) {
+        reader = PdfReader("file://" + path)
+    }
 
     override fun getText(): String {
         val strategy = SimpleTextExtractionStrategy()
