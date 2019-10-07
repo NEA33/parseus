@@ -4,13 +4,22 @@ import org.junit.Test
 import java.net.URL
 
 class HtmlParserTest {
-    val path = System.getProperty("user.dir") + "/src/main/resources/test.html"
-    //val path = URL("https://www.yandex.ru")
-    val doc = HtmlParser(path)
+
+    private val path = System.getProperty("user.dir") + "/src/main/resources/test.html"
+    private val url = URL("https://www.yandex.ru")
+
+    private val pathDoc = HtmlParser(path)
+    private val urlDoc = HtmlParser(url)
 
     @Test
-    fun testGetText() = println(doc.text)
+    fun testGetTextFromPathFile() = println(pathDoc.text)
 
     @Test
-    fun testGetLinks() = doc.links.forEach { link -> println(link) }
+    fun testGetTextFromUrlFile() = println(urlDoc.text)
+
+    @Test
+    fun testGetLinksFromPathFile() = pathDoc.links.forEach { link -> println(link) }
+
+    @Test
+    fun testGetLinksFromUrlFile() = urlDoc.links.forEach { link -> println(link) }
 }
