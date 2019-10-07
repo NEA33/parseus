@@ -2,31 +2,21 @@ package com.spbu.parseus
 
 import org.apache.poi.hwpf.HWPFDocument
 import org.apache.poi.hwpf.extractor.WordExtractor
-import java.io.File
 import java.io.FileInputStream
 
+class DocParser(path: String) : Parser {
 
-class DocParser: Parser {
     private val wordExtractor: WordExtractor
 
-    constructor(path: String) {
-        val fileSystem = FileInputStream(File(path).absolutePath)
+    init {
+        val fileSystem = FileInputStream(path)
         val doc = HWPFDocument(fileSystem)
         wordExtractor = WordExtractor(doc)
     }
 
-    override fun getText(): String = wordExtractor.text
+    override val text: String = wordExtractor.text
 
-    override fun getLinks(): List<String> {
-        var listLinks: MutableList<String> = mutableListOf()
-        var clearLink: String
-        wordExtractor.paragraphText.forEach { s ->
-            run {
-                clearLink = s.substringAfter("HYPERLINK \"").substringBefore(("\""))
-                if ("http" in clearLink)
-                    listLinks.add(clearLink)
-            }
-        }
-        return listLinks
-    }
+    override val links: List<String> = wordExtractor.paragraphText
+        .map { it.substringAfter("HYPERLINK \"").substringBefore("\"") }
+        .filter { "http" in it }
 }
