@@ -4,7 +4,7 @@ import org.junit.Test
 
 class DocParserTest {
 
-    private val path = System.getProperty("user.dir") + "/src/main/resources/test.doc"
+    private val path = System.getProperty("user.dir") + "/src/test/resources/test.doc"
     private val doc = DocParser(path)
 
     @Test

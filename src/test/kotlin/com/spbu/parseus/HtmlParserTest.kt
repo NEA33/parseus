@@ -5,7 +5,7 @@ import java.net.URL
 
 class HtmlParserTest {
 
-    private val path = System.getProperty("user.dir") + "/src/main/resources/test.html"
+    private val path = System.getProperty("user.dir") + "/src/test/resources/test.html"
     private val url = URL("https://www.yandex.ru")
 
     private val pathDoc = HtmlParser(path)

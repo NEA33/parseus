@@ -5,7 +5,7 @@ import java.net.URL
 
 class PdfParserTest {
 
-    private val path = System.getProperty("user.dir") + "/src/main/resources/test.pdf"
+    private val path = System.getProperty("user.dir") + "/src/test/resources/test.pdf"
     private val url = URL("https://www.tutorialspoint.com/kotlin/kotlin_tutorial.pdf")
 
     private val pathDoc = PdfParser(path)
