@@ -2,17 +2,31 @@ package com.spbu.parseus
 
 import org.apache.poi.hwpf.HWPFDocument
 import org.apache.poi.hwpf.extractor.WordExtractor
-import org.apache.poi.poifs.filesystem.POIFSFileSystem
 import java.io.File
 import java.io.FileInputStream
 
 
-class DocParser(fileName: String): AbstractParser(fileName) {
-    override fun getText(): String {
-        val fileSystem: POIFSFileSystem = POIFSFileSystem(FileInputStream(File(fileName)))
-        val doc: HWPFDocument = HWPFDocument(fileSystem)
-        val wordExtractor: WordExtractor = WordExtractor(doc)
-        val paragraphs = wordExtractor.paragraphText
-        return paragraphs.joinToString(separator = "\n")
+class DocParser(path: String): AbstractParser(path) {
+    private val wordExtractor: WordExtractor
+
+    init {
+        val fileSystem: FileInputStream = FileInputStream(File(path).absolutePath)
+        val doc = HWPFDocument(fileSystem)
+        wordExtractor = WordExtractor(doc)
+    }
+
+    override fun getText(): String = wordExtractor.text
+
+    override fun getLinks(): List<String> {
+        var listLinks: MutableList<String> = mutableListOf()
+        var clearLink: String
+        wordExtractor.paragraphText.forEach { s ->
+            run {
+                clearLink = s.substringAfter("HYPERLINK \"").substringBefore(("\""))
+                if ("http" in clearLink)
+                    listLinks.add(clearLink)
+            }
+        }
+        return listLinks
     }
 }
